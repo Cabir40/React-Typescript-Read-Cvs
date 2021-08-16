@@ -1,38 +1,123 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.jfSign_multi_modal-container {
+  height: auto;
+  width: calc(100% - 40rem);
+  box-shadow: 0px 0px 10px lightgrey;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.jfSign_multi_modal-button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #5cb85c;
+  margin: 0 auto 1rem auto;
+  text-align: center;
+}
+
+.jfSign_multi_modal-button .jfSign_multi_modal-button-text {
+  transform: translateX(35px);
   color: white;
+  font-weight: bold;
+  transition: 0.4s ease all;
 }
 
-.App-link {
-  color: #61dafb;
+.jfSign_multi_modal-button .jfSign_multi_modal-button-icon {
+  position: absolute;
+  border-left: 1px solid lightgrey;
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  transition: 0.4s ease all;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.jfSign_multi_modal-button i {
+  font-size: 15px;
+  color: #eee;
+}
+
+.jfSign_multi_modal-button:hover {
+  background: #157347;
+  text-align: center;
+}
+
+.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-text {
+  color: transparent;
+}
+
+.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(0);
+}
+
+.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-icon i {
+  font-size: 20px;
+}
+.jfSign_multi_modal-button:focus {
+  outline: none;
+}
+
+.jfSign_multi_modal-button-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.jfSign_multi_modal-input {
+  display: none;
+}
+
+.jfSign_multi_modal-table {
+  border-radius: 5px;
+  padding: 1rem 3rem;
+}
+
+.jfSign_multi_modal-table thead tr th {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 1.2px;
+}
+
+.jfSign_multi_modal-table tbody tr td {
+  padding: 15px;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 200;
+  border-bottom: 2px solid lightgrey;
+}
+
+.jfSign_multi_modal-container .table-dark {
+  width: 40rem;
+  text-align: center;
+}
+
+.jfSign_multi_modal-container td {
+  padding: 10px;
+}
+
+.jfSign_multi_modal-container thead tr th {
+  padding: 15px;
 }

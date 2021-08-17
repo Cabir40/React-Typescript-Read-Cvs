@@ -34,7 +34,7 @@
 }
 
 .jfSign_multi_modal-button .jfSign_multi_modal-button-text {
-  transform: translateX(35px);
+  transform: translateX(25px);
   color: white;
   font-weight: bold;
   transition: 0.4s ease all;
@@ -43,7 +43,7 @@
 .jfSign_multi_modal-button .jfSign_multi_modal-button-icon {
   position: absolute;
   border-left: 1px solid lightgrey;
-  transform: translateX(110px);
+  transform: translateX(100px);
   height: 40px;
   width: 40px;
   transition: 0.4s ease all;

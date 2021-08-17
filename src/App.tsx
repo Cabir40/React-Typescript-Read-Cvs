@@ -1,12 +1,10 @@
-import React, { ChangeEvent, useState } from "react";
-import DataTable from "react-data-table-component";
+import { ChangeEvent, useState } from "react";
 import { Table } from "reactstrap";
 import * as XLSX from "xlsx";
 import "./App.css";
 
 interface IData {
   name: string;
-  selector: string;
 }
 
 interface IObj {
@@ -18,7 +16,7 @@ interface IObj {
 function App() {
   const [data, setData] = useState<IObj[]>([]);
   const [columns, setColumns] = useState<IData[]>([]);
-  const [dataCheck, setDataCheck] = useState<Boolean>(false);
+  const [dataCheck, setDataCheck] = useState<boolean>(false);
   const [selectCheck, setSelectCheck] = useState<boolean>(false);
 
   const processData = (dataString: string) => {
@@ -47,10 +45,14 @@ function App() {
             if (d[d.length - 1] == '"') d = d.substring(d.length - 2, 1);
           }
 
-          if (headers[j].toLowerCase() === "name") {
+          const matchCheckForEmail = d.match(
+            /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+          );
+
+          if (headers[j].toLowerCase().includes("name")) {
             obj.name = d;
             nameCheck = true;
-          } else if (headers[j].toLowerCase() === "email") {
+          } else if (matchCheckForEmail) {
             obj.selector = d;
             emailCheck = true;
           }
@@ -62,7 +64,6 @@ function App() {
 
     const columns = headers.map((c) => ({
       name: c,
-      selector: c,
     }));
 
     setData(list);
@@ -106,7 +107,7 @@ function App() {
   const sendToMail = () => {
     alert("Mail'ler Gönderilcektir.");
     let newData = data.filter((item) => item.checked === true);
-    /* mail gönderilevek kişiler = data */
+    /* mail gönderilecek kişiler = data */
     console.log(newData);
     setData([]);
     setColumns([]);

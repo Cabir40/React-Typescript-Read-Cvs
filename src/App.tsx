@@ -55,9 +55,9 @@ function App() {
     setDataCheck(true);
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
-    setFileName(file.name);
 
     if (file) {
+      setFileName(file.name);
       const reader = new FileReader();
       reader.onload = (evt: ProgressEvent<FileReader>) => {
         const bstr = evt.target?.result;
@@ -68,7 +68,17 @@ function App() {
         processData(data);
       };
       reader.readAsBinaryString(file);
-    } else setDataCheck(false);
+    } else {
+      resetState();
+    }
+  };
+
+  const resetState = (): void => {
+    setData([]);
+    setColumns([]);
+    setFileName("");
+    setDataCheck(false);
+    setSelectCheck(false);
   };
 
   const changeCheckedValue = (i: number): void => {
@@ -87,7 +97,16 @@ function App() {
 
   const sendToMail = (): void => {
     let newData = data.filter((item) => item.checked === true);
-    console.log(newData);
+
+    if (newData.length) {
+      console.log(newData);
+      alert("Data is printed to console.");
+
+      /* Reset */
+      resetState();
+    } else {
+      alert("No data selected please select data.");
+    }
   };
 
   return (

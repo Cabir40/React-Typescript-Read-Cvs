@@ -1,17 +1,16 @@
-.jfSign_multi_modal-container {
-  height: auto;
-  width: calc(100% - 40rem);
+.modal-container {
+  width: 50rem;
   box-shadow: 0px 0px 10px lightgrey;
   padding: 1rem;
   border-radius: 10px;
-  margin: 2rem auto;
+  margin: 10rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.jfSign_multi_modal-button {
+.modal-button {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -19,7 +18,6 @@
   -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-
   width: 150px;
   height: 50px;
   cursor: pointer;
@@ -33,14 +31,14 @@
   text-align: center;
 }
 
-.jfSign_multi_modal-button .jfSign_multi_modal-button-text {
+.modal-button .modal-button-text {
   transform: translateX(25px);
   color: white;
   font-weight: bold;
   transition: 0.4s ease all;
 }
 
-.jfSign_multi_modal-button .jfSign_multi_modal-button-icon {
+.modal-button .modal-button-icon {
   position: absolute;
   border-left: 1px solid lightgrey;
   transform: translateX(100px);
@@ -49,34 +47,34 @@
   transition: 0.4s ease all;
 }
 
-.jfSign_multi_modal-button i {
+.modal-button i {
   font-size: 15px;
   color: #eee;
 }
 
-.jfSign_multi_modal-button:hover {
+.modal-button:hover {
   background: #157347;
   text-align: center;
 }
 
-.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-text {
+.modal-button:hover .modal-button-text {
   color: transparent;
 }
 
-.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-icon {
+.modal-button:hover .modal-button-icon {
   width: 150px;
   border-left: none;
   transform: translateX(0);
 }
 
-.jfSign_multi_modal-button:hover .jfSign_multi_modal-button-icon i {
+.modal-button:hover .modal-button-icon i {
   font-size: 20px;
 }
-.jfSign_multi_modal-button:focus {
+.modal-button:focus {
   outline: none;
 }
 
-.jfSign_multi_modal-button-label {
+.modal-button-label {
   width: 100%;
   height: 100%;
   display: flex;
@@ -85,39 +83,32 @@
   cursor: pointer;
 }
 
-.jfSign_multi_modal-input {
+.modal-input {
   display: none;
 }
 
-.jfSign_multi_modal-table {
+.modal-table {
+  max-height: 20rem;
+  overflow-y: auto;
   border-radius: 5px;
-  padding: 1rem 3rem;
+  margin-bottom: 1rem;
 }
 
-.jfSign_multi_modal-table thead tr th {
-  font-size: 20px;
-  text-transform: uppercase;
-  font-weight: 300;
-  letter-spacing: 1.2px;
-}
-
-.jfSign_multi_modal-table tbody tr td {
-  padding: 15px;
-  font-size: 20px;
-  font-style: italic;
-  font-weight: 200;
-  border-bottom: 2px solid lightgrey;
-}
-
-.jfSign_multi_modal-container .table-dark {
+.modal-container table {
   width: 40rem;
   text-align: center;
+  overflow-y: scroll;
 }
 
-.jfSign_multi_modal-container td {
-  padding: 10px;
-}
-
-.jfSign_multi_modal-container thead tr th {
+.modal-container table thead tr th {
   padding: 15px;
+}
+
+.modal-button-2 {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 2rem;
 }

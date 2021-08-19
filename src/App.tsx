@@ -1,79 +1,61 @@
-import { ChangeEvent, useState } from "react";
-import { Table } from "reactstrap";
+import React, { ChangeEvent, useState } from "react";
 import * as XLSX from "xlsx";
 import "./App.css";
+import Modal from "./Modal";
 
-interface IData {
-  name: string;
-}
-
-interface IObj {
-  name: string;
-  selector: string;
+export interface IObj {
+  IObjData: string[];
   checked: boolean;
 }
 
 function App() {
   const [data, setData] = useState<IObj[]>([]);
-  const [columns, setColumns] = useState<IData[]>([]);
+  const [columns, setColumns] = useState<string[]>([]);
+  const [fileName, setFileName] = useState<string>("");
   const [dataCheck, setDataCheck] = useState<boolean>(false);
   const [selectCheck, setSelectCheck] = useState<boolean>(false);
 
-  const processData = (dataString: string) => {
+  const processData = (dataString: string): void => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     const headers = dataStringLines[0].split(
       /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
     );
 
     const list = [];
+
     for (let i = 1; i < dataStringLines.length; i++) {
       const row = dataStringLines[i].split(
         /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
       );
-      if (headers && row.length == headers.length) {
+      if (row.length && row.length == headers.length) {
         let obj: IObj = {
-          name: "",
-          selector: "",
+          IObjData: [],
           checked: false,
         };
-        let nameCheck = false,
-          emailCheck = false;
+
         for (let j = 0; j < headers.length; j++) {
-          let d = row[j];
-          if (d.length > 0) {
-            if (d[0] == '"') d = d.substring(1, d.length - 1);
-            if (d[d.length - 1] == '"') d = d.substring(d.length - 2, 1);
-          }
-
-          const matchCheckForEmail = d.match(
-            /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
-          );
-
-          if (headers[j].toLowerCase().includes("name")) {
-            obj.name = d;
-            nameCheck = true;
-          } else if (matchCheckForEmail) {
-            obj.selector = d;
-            emailCheck = true;
+          let cell = row[j];
+          if (cell.length > 0) {
+            if (cell[0] == '"') cell = cell.substring(1, cell.length - 1);
+            if (cell[cell.length - 1] == '"')
+              cell = cell.substring(cell.length - 2, 1);
+            obj.IObjData.push(cell);
           }
         }
         if (Object.values(obj).filter((x) => x).length > 0) list.push(obj);
-        if (!nameCheck || !emailCheck) setDataCheck(false);
       }
     }
 
-    const columns = headers.map((c) => ({
-      name: c,
-    }));
-
     setData(list);
-    setColumns(columns);
+    setColumns(headers);
+    setDataCheck(true);
   };
 
   const handleFileUpload = (event: ChangeEvent): void => {
     setDataCheck(true);
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
+    setFileName(file.name);
 
     if (file) {
       const reader = new FileReader();
@@ -89,7 +71,7 @@ function App() {
     } else setDataCheck(false);
   };
 
-  const changeCheckedValue = (i: number) => {
+  const changeCheckedValue = (i: number): void => {
     let newData = [...data];
     newData[i].checked = !newData[i].checked;
     setData(newData);
@@ -100,103 +82,27 @@ function App() {
     for (let i = 0; i < data.length; i++) {
       newData[i].checked = !selectCheck;
     }
-
     setData(newData);
   };
 
-  const sendToMail = () => {
-    alert("Mail'ler Gönderilcektir.");
+  const sendToMail = (): void => {
     let newData = data.filter((item) => item.checked === true);
-    /* mail gönderilecek kişiler = data */
     console.log(newData);
-    setData([]);
-    setColumns([]);
-    setDataCheck(false);
-    setSelectCheck(false);
   };
+
   return (
-    <div className="jfSign_multi_modal-container">
-      <input
-        type="file"
-        id="jfSign_multi_modal-input"
-        className="jfSign_multi_modal-input"
-        accept=".csv,.xlsx,.xls"
-        onChange={handleFileUpload}
-      />
-
-      <button className="jfSign_multi_modal-button">
-        <span className="jfSign_multi_modal-button-text">Choose</span>
-        <span className="jfSign_multi_modal-button-icon">
-          <label
-            htmlFor="jfSign_multi_modal-input"
-            className="jfSign_multi_modal-button-label"
-          >
-            <i className="bi bi-file-earmark-arrow-up-fill"></i>
-          </label>
-        </span>
-      </button>
-
-      {dataCheck && data.length ? (
-        <div>
-          <Table dark>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>
-                  Select All &nbsp;
-                  <input
-                    type="checkbox"
-                    checked={selectCheck}
-                    onChange={(e) => {
-                      changeAllValue();
-                      setSelectCheck(e.target.checked);
-                    }}
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>{item.name}</td>
-                    <td>{item.selector}</td>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={item.checked}
-                        onChange={() => changeCheckedValue(i)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            <tfoot></tfoot>
-          </Table>
-
-          <div className="text-end">
-            <button className="btn btn-info" onClick={sendToMail}>
-              Send Message
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          {columns.length ? (
-            <p>
-              Name and mail values ​​could not be found in the file you
-              selected. please try a different file
-            </p>
-          ) : (
-            <p>Please Choose File...</p>
-          )}
-        </div>
-      )}
-    </div>
+    <Modal
+      handleFileUpload={handleFileUpload}
+      data={data}
+      columns={columns}
+      fileName={fileName}
+      sendToMail={sendToMail}
+      changeCheckedValue={changeCheckedValue}
+      changeAllValue={changeAllValue}
+      dataCheck={dataCheck}
+      selectCheck={selectCheck}
+      setSelectCheck={setSelectCheck}
+    />
   );
 }
 
